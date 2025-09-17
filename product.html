@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Details — Insta Fashion</title>
+  <style>
+    body { margin:0; font-family:Inter,sans-serif; background:#f9f9f9; color:#222; }
+    header { padding:1rem 2rem; background:#fff; box-shadow:0 2px 4px rgba(0,0,0,0.05); display:flex; justify-content:space-between; align-items:center; }
+    .container { display:flex; flex-wrap:wrap; gap:2rem; padding:2rem; }
+    .image-box img { width:100%; max-width:400px; border-radius:12px; }
+    .details { flex:1; min-width:280px; display:flex; flex-direction:column; gap:.8rem; }
+    .price { font-size:1.4rem; font-weight:bold; color:#00e0a4; }
+    .brand { font-size:.9rem; color:#777; }
+    .rating { font-size:.9rem; color:#fbc02d; }
+    .delivery { font-size:.85rem; color:#388e3c; }
+    .sizes { display:flex; gap:.5rem; flex-wrap:wrap; }
+    .size { border:1px solid #ccc; padding:.5rem 1rem; border-radius:8px; cursor:pointer; }
+    .size.active { background:#eee; }
+    .primary { background:#00e0a4; color:#00130d; border:none; padding:.8rem 1.2rem; border-radius:8px; font-weight:bold; cursor:pointer; }
+    .desc { margin-top:1rem; font-size:.9rem; line-height:1.5; color:#444; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h2>🛍 Insta Fashion</h2>
+  <a href="shop.html" class="ghost">⬅ Back to Shop</a>
+</header>
+
+<div class="container">
+  <div class="image-box">
+    <img id="productImg" src="" alt="">
+  </div>
+  <div class="details">
+    <h3 id="productTitle"></h3>
+    <div class="brand" id="productBrand"></div>
+    <div class="price" id="productPrice"></div>
+    <div class="rating" id="productRating"></div>
+    <div class="delivery" id="productDelivery"></div>
+    <div class="sizes" id="sizeOptions"></div>
+    <button class="primary">Add to Cart</button>
+    <div class="desc" id="productDesc"></div>
+  </div>
+</div>
+
+<script>
+  const PRODUCTS = [
+    {id:1,title:"Cotton T‑Shirt",brand:"Insta Basics",price:699,img:"assets/women.jpg",rating:4.5,delivery:"30 min delivery",sizes:["S","M","L"],desc:"Soft cotton T-shirt perfect for daily wear."},
+    {id:2,title:"Slim Fit Denim",brand:"BlueForge",price:1499,img:"assets/men.jpg",rating:4.2,delivery:"Express shipping",sizes:["30","32","34"],desc:"Stretchable slim fit denim for modern look."},
+    {id:3,title:"Floral Dress",brand:"Lush",price:1299,img:"assets/festive.jpg",rating:4.6,delivery:"Same day",sizes:["S","M","L"],desc:"Elegant floral dress for festive occasions."}
+  ];
+
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get("id"));
+  const product = PRODUCTS.find(p => p.id === id);
+
+  if (product) {
+    document.getElementById("productImg").src = product.img;
+    document.getElementById("productTitle").textContent = product.title;
+    document.getElementById("productBrand").textContent = product.brand;
+    document.getElementById("productPrice").textContent = ₹${product.price};
+    document.getElementById("productRating").textContent = ⭐ ${product.rating};
+    document.getElementById("productDelivery").textContent = product.delivery;
+    document.getElementById("productDesc").textContent = product.desc;
+
+    const sizeBox = document.getElementById("sizeOptions");
+    product.sizes.forEach(size => {
+      const btn = document.createElement("button");
+      btn.className = "size";
+      btn.textContent = size;
+      btn.onclick = () => {
+        document.querySelectorAll(".size").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+      };
+      sizeBox.appendChild(btn);
+    });
+  } else {
+    document.body.innerHTML = "<h2 style='padding:2rem'>Product not found</h2>";
+  }
+</script>
+
+</body>
+</html>

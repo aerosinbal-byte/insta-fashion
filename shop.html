@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Insta Fashion — Shop</title>
+  <style>
+    :root {
+      --bg: #f9f9f9;
+      --card: #fff;
+      --accent: #00e0a4;
+      --text: #222;
+      --muted: #777;
+      --radius: 12px;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    header {
+      background: var(--card);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    header h1 {
+      font-size: 1.4rem;
+      margin: 0;
+    }
+    .ghost {
+      background: transparent;
+      border: 1px solid var(--muted);
+      color: var(--text);
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+    }
+    .filters {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 1rem 2rem;
+      background: var(--card);
+      border-bottom: 1px solid #eee;
+    }
+    .filters input, .filters select {
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      flex: 1;
+      min-width: 140px;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+      padding: 1rem 2rem;
+    }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .info {
+      padding: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .info h4 {
+      margin: 0.2rem 0;
+      font-size: 1rem;
+    }
+    .info p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .price {
+      font-weight: bold;
+      color: var(--accent);
+      margin-top: 0.5rem;
+    }
+    .rating {
+      font-size: 0.8rem;
+      color: #fbc02d;
+    }
+    .delivery {
+      font-size: 0.75rem;
+      color: #388e3c;
+      margin-top: 0.3rem;
+    }
+    .view-btn {
+      margin-top: auto;
+      background: var(--accent);
+      color: #00130d;
+      border: none;
+      padding: 0.5rem;
+      border-radius: var(--radius);
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🛍 Insta Fashion Shop</h1>
+  <a href="index.html" class="ghost">⬅ Back</a>
+</header>
+
+<div class="filters">
+  <input type="text" id="searchBox" placeholder="Search products...">
+  <select id="sortSelect">
+    <option value="popularity">Sort by Popularity</option>
+    <option value="priceAsc">Price: Low to High</option>
+    <option value="priceDesc">Price: High to Low</option>
+    <option value="newest">Newest</option>
+  </select>
+</div>
+
+<main class="product-grid" id="productGrid"></main>
+
+<script>
+  const PRODUCTS = [
+    {id:1,title:"Cotton T‑Shirt",brand:"Insta Basics",price:699,img:"assets/women.jpg",rating:4.5,delivery:"30 min delivery"},
+    {id:2,title:"Slim Fit Denim",brand:"BlueForge",price:1499,img:"assets/men.jpg",rating:4.2,delivery:"Express shipping"},
+    {id:3,title:"Floral Dress",brand:"Lush",price:1299,img:"assets/festive.jpg",rating:4.6,delivery:"Same day"},
+    {id:4,title:"Running Shoes",brand:"SwiftStep",price:1999,img:"assets/footwear.jpg",rating:4.3,delivery:"30 min delivery"},
+    {id:5,title:"Analog Watch",brand:"EdgeTime",price:1699,img:"assets/accessories.jpg",rating:4.1,delivery:"Next day"},
+    {id:6,title:"Kurta Set",brand:"Raipur Royale",price:1599,img:"assets/kids.jpg",rating:4.4,delivery:"Festive express"}
+  ];
+
+  const grid = document.getElementById("productGrid");
+  const searchBox = document.getElementById("searchBox");
+  const sortSelect = document.getElementById("sortSelect");
+
+  function renderProducts() {
+    let results = PRODUCTS.filter(p => p.title.toLowerCase().includes(searchBox.value.toLowerCase()));
+    switch(sortSelect.value) {
+      case "priceAsc": results.sort((a,b)=>a.price-b.price); break;
+      case "priceDesc": results.sort((a,b)=>b.price-a.price); break;
+      case "newest": results.sort((a,b)=>b.id-a.id); break;
+      default: results.sort((a,b)=>b.rating-a.rating);
+    }
+    grid.innerHTML = "";
+    results.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${p.img}" alt="${p.title}">
+        <div class="info">
+          <h4>${p.title}</h4>
+          <p>${p.brand}</p>
+          <div class="price">₹${p.price}</div>
+          <div class="rating">⭐ ${p.rating}</div>
+          <div class="delivery">${p.delivery}</div>
+          <button class="view-btn" onclick="alert('Viewing ${p.title}')">View</button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  searchBox.oninput = renderProducts;
+  sortSelect.onchange = renderProducts;
+  renderProducts();
+</script>
+
+<a href="product.html?id=1" class="view-btn">Show</a>
+</body>
+</html>

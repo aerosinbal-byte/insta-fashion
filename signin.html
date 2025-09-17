@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign in — Insta Fashion</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body{display:flex;align-items:center;justify-content:center;height:100vh;background:#0b0b0b;color:#fff;font-family:Inter,sans-serif}
+    .signin-box{background:#121212;padding:2rem;border-radius:.8rem;width:min(400px,90%);border:1px solid #1f1f1f}
+    .signin-box h2{margin-top:0}
+    .input{width:100%;padding:.7rem;border-radius:.4rem;border:1px solid #333;background:#0f0f0f;color:#fff;margin-bottom:.8rem}
+    .btn{width:100%;padding:.8rem;border-radius:.4rem;border:0;font-weight:600;cursor:pointer}
+    .btn-primary{background:#00e0a4;color:#00130d}
+    .btn-secondary{background:#1a1a1a;color:#fff;border:1px solid #333}
+    .hidden{display:none}
+    .muted{color:#9aa0a6;font-size:.9rem;text-align:center;margin-top:1rem}
+  </style>
+</head>
+<body>
+  <div class="signin-box">
+    <h2>Sign in to Insta Fashion</h2>
+    <input id="phoneInput" type="tel" placeholder="Phone number" class="input" />
+    <button id="sendOtpBtn" class="btn btn-primary">Send OTP</button>
+    <input id="otpInput" type="text" placeholder="Enter OTP" class="input hidden" />
+    <button id="verifyOtpBtn" class="btn btn-primary hidden">Verify OTP</button>
+    <p class="muted">By continuing, you agree to our Terms & Privacy Policy</p>
+  </div>
+
+  <script>
+    const phoneInput = document.getElementById("phoneInput");
+    const sendOtpBtn = document.getElementById("sendOtpBtn");
+    const otpInput = document.getElementById("otpInput");
+    const verifyOtpBtn = document.getElementById("verifyOtpBtn");
+
+    sendOtpBtn.onclick = () => {
+      if (!phoneInput.value.trim()) { alert("Enter phone number"); return; }
+      otpInput.classList.remove("hidden");
+      verifyOtpBtn.classList.remove("hidden");
+      alert("OTP sent (demo: 1234)");
+    };
+
+    verifyOtpBtn.onclick = () => {
+      if (otpInput.value.trim() === "1234") {
+        const user = { phone: phoneInput.value.trim() };
+        localStorage.setItem("user", JSON.stringify(user));
+        alert("Login successful");
+        window.location.href = "index.html"; // back to home
+      } else {
+        alert("Invalid OTP");
+      }
+    };
+  </script>
+</body>
+</html>

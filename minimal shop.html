@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insta Fashion — Test Shop</title>
+  <style>
+    body { background:#0b0b0b; color:#fff; font-family:sans-serif; margin:0; }
+    h1 { padding:1rem; background:#111; margin:0; }
+    .product-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+      gap:1rem;
+      padding:1rem;
+    }
+    .product-card {
+      background:#121212;
+      border:1px solid #222;
+      border-radius:.6rem;
+      overflow:hidden;
+      text-align:center;
+      padding-bottom:1rem;
+    }
+    .product-card img {
+      width:100%;
+      height:200px;
+      object-fit:cover;
+    }
+    .product-card h4 { margin:.5rem 0; }
+    .price { color:#00e0a4; font-weight:bold; }
+  </style>
+</head>
+<body>
+
+<h1>🛍 Insta Fashion Shop</h1>
+
+<div class="product-grid" id="productGrid"></div>
+
+<script>
+  // Sample products
+  const PRODUCTS = [
+    {title:"Premium Cotton T‑Shirt", price:699, img:"banner.jpg"},
+    {title:"Slim Fit Denim", price:1499, img:"banner.jpg"},
+    {title:"Floral Summer Dress", price:1299, img:"assets/placeholder.jp"},
+    {title:"Athletic Running Shoes", price:1999, img:"assets/placeholder.jpg"},
+    {title:"Silver Analog Watch", price:1699, img:"assets/placeholder.jpg"},
+    {title:"Kurta Set", price:1599, img:"assets/placeholder.jpg"}
+  ];
+
+  const grid = document.getElementById("productGrid");
+
+  function renderProducts() {
+    grid.innerHTML = "";
+    PRODUCTS.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <img src="${p.img}" alt="${p.title}">
+        <h4>${p.title}</h4>
+        <div class="price">₹${p.price}</div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  renderProducts();
+</script>
+
+</body>
+</html>
